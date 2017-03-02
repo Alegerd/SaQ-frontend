@@ -51,7 +51,7 @@ public class Model {
                     System.out.println("stack");
                 }
                 break;
-                
+
             case Queue:
                 for (T arg: args) {
                     queue.Enqueue(arg);

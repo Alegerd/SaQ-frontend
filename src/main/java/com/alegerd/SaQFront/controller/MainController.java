@@ -1,6 +1,8 @@
 package com.alegerd.SaQFront.controller;
 
+import Exceptions.NullOutputException;
 import com.alegerd.SaQFront.Model;
+import com.app.mainPackage.Exceptions.OutOfBordersException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -28,6 +30,8 @@ public class MainController {
     TextField input;
     @FXML
     TextField output;
+
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     Button defaultBtn = stackArrayButton;
 
@@ -66,15 +70,26 @@ public class MainController {
 
     @FXML
     private void popButton(ActionEvent e){
-        if(!model.isStackEmpty()) {
-            output.appendText(" " + String.valueOf(model.Pop()));
-        }
+            try{
+                //if(element == null) throw new NullOutputException("list is empty");
+                output.appendText(" " + String.valueOf(model.Pop()));
+            }
+            catch (Exception ex){
+                alert.setTitle("Danger Zone");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
+            }
     }
 
     @FXML
     private void peekButton(ActionEvent e){
-        if(!model.isStackEmpty()) {
+        try{
             output.appendText(" " + String.valueOf(model.Peek()));
+        }
+        catch (Exception ex){
+            alert.setTitle("Danger Zone");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
         }
     }
 
