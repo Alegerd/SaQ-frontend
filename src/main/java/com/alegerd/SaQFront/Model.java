@@ -54,7 +54,7 @@ public class Model {
 
             case Queue:
                 for (T arg: args) {
-                    queue.Enqueue(arg);
+                    queue.enqueue(arg);
                     System.out.println("queue");
                 }
                 break;
@@ -66,7 +66,7 @@ public class Model {
             case Stack:
                 return stack.pop();
             case Queue:
-                return queue.Dequeue();
+                return queue.dequeue();
         }
         return null;
     }
