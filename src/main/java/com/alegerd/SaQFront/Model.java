@@ -4,6 +4,8 @@ import com.app.mainPackage.Classes.ArrayQueue;
 import com.app.mainPackage.Classes.ArrayStack;
 import com.app.mainPackage.Classes.LinkedQueue;
 import com.app.mainPackage.Classes.LinkedStack;
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
+import com.app.mainPackage.Exceptions.OutOfBordersException;
 import com.app.mainPackage.Interfaces.IQueue;
 import com.app.mainPackage.Interfaces.IStack;
 
@@ -34,16 +36,20 @@ public class Model {
         switch (listMode){
             case ArrayStack:
                 stack = new ArrayStack<T>(e);
+                break;
             case LinkedStack:
                 stack = new LinkedStack<T>();
+                break;
             case ArrayQueue:
                 queue = new ArrayQueue<T>(e);
+                break;
             case LinkedQueue:
                 queue = new LinkedQueue<T>();
+                break;
         }
         }
 
-    public <T> void Push(T[] args){
+    public <T> void Push(T[] args) throws NullObjectSendedException {
         switch (currentListType){
             case Stack:
                 for (T arg: args) {
@@ -61,17 +67,17 @@ public class Model {
         }
     }
 
-    public Object Pop(){
+    public Object Pop() throws OutOfBordersException {
         switch (currentListType){
             case Stack:
-                return stack.pop();
+                    return stack.pop();
             case Queue:
                 return queue.dequeue();
         }
         return null;
     }
 
-    public Object Peek() {
+    public Object Peek() throws OutOfBordersException {
         switch (currentListType){
             case Stack:
                 return stack.peek();
@@ -94,15 +100,15 @@ public class Model {
     public boolean isStackEmpty() {
         switch (currentListType){
         case Stack:
-        return stack.isEmpty();
+            return stack.isEmpty();
         case Queue:
-        return queue.isEmpty();
+            return queue.isEmpty();
         }
         return true;
     }
 
     public void ClearStack(){
-        stack.clear();
-        queue.clear();
+        if(stack != null) stack.clear();
+        if(queue != null) queue.clear();
     }
 }

@@ -1,7 +1,8 @@
 package com.alegerd.SaQFront.controller;
 
-import Exceptions.NullOutputException;
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.alegerd.SaQFront.Model;
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.app.mainPackage.Exceptions.OutOfBordersException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,14 +66,20 @@ public class MainController {
     private void pushButton(ActionEvent e){
         if(!model.isStackExists())
             model.MakeStack(input.getText());
-        model.Push(input.getText().split(" "));
+        try {
+            model.Push(input.getText().split(" "));
+        } catch (NullObjectSendedException e1) {
+            alert.setTitle("Error");
+            alert.setHeaderText("Collection can't store 'null' elements.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
-    private void popButton(ActionEvent e){
+    private void popButton(ActionEvent e) {
             try{
-                //if(element == null) throw new NullOutputException("list is empty");
-                output.appendText(" " + String.valueOf(model.Pop()));
+                if(model.isStackExists())
+                    output.appendText(" " + String.valueOf(model.Pop()));
             }
             catch (Exception ex){
                 alert.setTitle("Danger Zone");
@@ -82,9 +89,10 @@ public class MainController {
     }
 
     @FXML
-    private void peekButton(ActionEvent e){
+    private void peekButton(ActionEvent e) {
         try{
-            output.appendText(" " + String.valueOf(model.Peek()));
+            if(model.isStackExists())
+                output.appendText(" " + String.valueOf(model.Peek()));
         }
         catch (Exception ex){
             alert.setTitle("Danger Zone");
@@ -94,7 +102,7 @@ public class MainController {
     }
 
     @FXML
-    private void clearButton(ActionEvent e){
+    private void clearButton(ActionEvent e) {
         output.clear();
         model.ClearStack();
     }
