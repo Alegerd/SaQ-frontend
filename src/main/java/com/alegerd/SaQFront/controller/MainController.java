@@ -2,22 +2,23 @@ package com.alegerd.SaQFront.controller;
 
 import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.alegerd.SaQFront.Model;
-import com.app.mainPackage.Exceptions.NullObjectSendedException;
-import com.app.mainPackage.Exceptions.OutOfBordersException;
-import javafx.event.ActionEvent;
+import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-import java.awt.*;
 
 /**
  * Created by alegerd on 24.02.17.
  */
 public class MainController {
 
+    private enum TabSort {
+        STANDARD, PRIORITY
+    }
+
     Model model = new Model();
+    TabSort tabSort = TabSort.STANDARD;
 
     @FXML
     Button stackArrayButton;
@@ -31,10 +32,28 @@ public class MainController {
     TextField input;
     @FXML
     TextField output;
+    @FXML
+    TextField inputValue;
+    @FXML
+    TextField inputPriority;
+    @FXML
+    TextField outputPriority;
 
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     Button defaultBtn = stackArrayButton;
+
+    @FXML
+    private void standardTabSelected(ActionEvent e) {
+        tabSort = TabSort.STANDARD;
+    }
+
+    @FXML
+    private void priorityTabSelected(ActionEvent e) {
+        tabSort = TabSort.PRIORITY;
+        model.listMode = Model.ListType.PriorityQueue;
+        model.currentListType = Model.CurrentListType.PriorityQueue;
+    }
 
     @FXML
     private void setStackArrayButtonClicked(ActionEvent e)
@@ -65,9 +84,9 @@ public class MainController {
     @FXML
     private void pushButton(ActionEvent e){
         if(!model.isStackExists())
-            model.MakeStack(input.getText());
+            model.makeStack(input.getText());
         try {
-            model.Push(input.getText().split(" "));
+            model.push(input.getText().split(" "));
         } catch (NullObjectSendedException e1) {
             alert.setTitle("Error");
             alert.setHeaderText("Collection can't store 'null' elements.");
@@ -76,10 +95,23 @@ public class MainController {
     }
 
     @FXML
+    private void pushButton_Priority(ActionEvent e){
+        if(!model.isStackExists())
+            model.makePriorityQueue(inputValue.getText(), inputPriority.getText());
+        try {
+            model.pushPriority(inputValue.getText(), inputPriority.getText());
+        } catch (Exception e1) {
+            alert.setTitle("Error");
+            alert.setHeaderText("Exception occurred");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
     private void popButton(ActionEvent e) {
             try{
                 if(model.isStackExists())
-                    output.appendText(" " + String.valueOf(model.Pop()));
+                    output.appendText(" " + String.valueOf(model.pop()));
             }
             catch (Exception ex){
                 alert.setTitle("Danger Zone");
@@ -92,7 +124,7 @@ public class MainController {
     private void peekButton(ActionEvent e) {
         try{
             if(model.isStackExists())
-                output.appendText(" " + String.valueOf(model.Peek()));
+                output.appendText(" " + String.valueOf(model.peek()));
         }
         catch (Exception ex){
             alert.setTitle("Danger Zone");
@@ -104,6 +136,6 @@ public class MainController {
     @FXML
     private void clearButton(ActionEvent e) {
         output.clear();
-        model.ClearStack();
+        model.clearStack();
     }
 }

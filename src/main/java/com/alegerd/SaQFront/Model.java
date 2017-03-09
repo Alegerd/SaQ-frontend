@@ -1,11 +1,9 @@
 package com.alegerd.SaQFront;
 
-import com.app.mainPackage.Classes.ArrayQueue;
-import com.app.mainPackage.Classes.ArrayStack;
-import com.app.mainPackage.Classes.LinkedQueue;
-import com.app.mainPackage.Classes.LinkedStack;
+import com.app.mainPackage.Classes.*;
 import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.app.mainPackage.Exceptions.OutOfBordersException;
+import com.app.mainPackage.Interfaces.IPriorityQueue;
 import com.app.mainPackage.Interfaces.IQueue;
 import com.app.mainPackage.Interfaces.IStack;
 
@@ -17,22 +15,25 @@ public class Model {
         ArrayStack,
         LinkedStack,
         ArrayQueue,
-        LinkedQueue
+        LinkedQueue,
+        PriorityQueue
     }
 
     public enum CurrentListType{
         Stack,
-        Queue
+        Queue,
+        PriorityQueue
     }
 
 
     IStack stack = null;
     IQueue queue = null;
+    IPriorityQueue priorityQueue = null;
 
     public ListType listMode = ListType.ArrayStack;
     public CurrentListType currentListType = CurrentListType.Stack;
 
-    public <T> void MakeStack(T e){
+    public <T> void makeStack(T e){
         switch (listMode){
             case ArrayStack:
                 stack = new ArrayStack<T>(e);
@@ -49,7 +50,13 @@ public class Model {
         }
         }
 
-    public <T> void Push(T[] args) throws NullObjectSendedException {
+    public <T1, T2 extends Comparable> void makePriorityQueue(T1 value, T2 priority) {
+        priorityQueue = new PriorityQueue<T1,T2>();
+        listMode = ListType.PriorityQueue;
+        currentListType = CurrentListType.PriorityQueue;
+    }
+
+    public <T> void push(T[] args) throws NullObjectSendedException {
         switch (currentListType){
             case Stack:
                 for (T arg: args) {
@@ -67,7 +74,7 @@ public class Model {
         }
     }
 
-    public Object Pop() throws OutOfBordersException {
+    public Object pop() throws OutOfBordersException {
         switch (currentListType){
             case Stack:
                     return stack.pop();
@@ -77,7 +84,7 @@ public class Model {
         return null;
     }
 
-    public Object Peek() throws OutOfBordersException {
+    public Object peek() throws OutOfBordersException {
         switch (currentListType){
             case Stack:
                 return stack.peek();
@@ -93,6 +100,8 @@ public class Model {
                 return (stack != null) ? true : false;
             case Queue:
                 return (queue != null) ? true : false;
+            case PriorityQueue:
+                return (priorityQueue != null) ? true : false;
         }
         return false;
     }
@@ -107,8 +116,19 @@ public class Model {
         return true;
     }
 
-    public void ClearStack(){
+    public void clearStack(){
         if(stack != null) stack.clear();
         if(queue != null) queue.clear();
+        if(priorityQueue != null) priorityQueue = new PriorityQueue();
     }
+
+    public <T,T2 extends Comparable> void pushPriority(T value, T2 priority) {
+        priorityQueue.enqueue(value, priority);
+    }
+
+    public void popPriority() throws OutOfBordersException {
+        priorityQueue.dequeue();
+    }
+
+
 }
