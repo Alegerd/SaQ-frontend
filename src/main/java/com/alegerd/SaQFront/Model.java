@@ -126,8 +126,8 @@ public class Model {
         priorityQueue.enqueue(value, priority);
     }
 
-    public void popPriority() throws OutOfBordersException {
-        priorityQueue.dequeue();
+    public <T> String popPriority() throws OutOfBordersException {
+        return String.valueOf(priorityQueue.dequeue());
     }
 
 

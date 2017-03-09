@@ -113,7 +113,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab onSelectionChanged="#priorityTabSelected" fx:id="priorityTab" text="Primary Queue">
+                <Tab fx:id="priorityTab" onSelectionChanged="#priorityTabSelected" text="Primary Queue">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -139,7 +139,7 @@
                                                 <Insets left="50.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <Button defaultButton="true" maxHeight="55.0" maxWidth="125.0" minHeight="55.0" minWidth="125.0" mnemonicParsing="false" onAction="#pushButton" prefHeight="55.0" prefWidth="125.0" text="Push">
+                                          <Button defaultButton="true" maxHeight="55.0" maxWidth="125.0" minHeight="55.0" minWidth="125.0" mnemonicParsing="false" onAction="#pushButton_Priority" prefHeight="55.0" prefWidth="125.0" text="Push">
                                              <HBox.margin>
                                                 <Insets left="50.0" />
                                              </HBox.margin>
@@ -156,19 +156,14 @@
                                     </Label>
                                     <HBox alignment="CENTER" maxHeight="100.0" maxWidth="590.0" minHeight="100.0" minWidth="590.0" prefHeight="100.0" prefWidth="590.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#popButton" prefHeight="56.0" prefWidth="125.0" text="Pop">
+                                          <Button mnemonicParsing="false" onAction="#popButton_Priority" prefHeight="56.0" prefWidth="125.0" text="Pop">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#peekButton" prefHeight="56.0" prefWidth="125.0" text="Peek">
+                                          <Button mnemonicParsing="false" onAction="#clearButtonPriority" prefHeight="56.0" prefWidth="125.0" text="Clear">
                                              <HBox.margin>
-                                                <Insets left="40.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button mnemonicParsing="false" onAction="#clearButton" prefHeight="56.0" prefWidth="125.0" text="Clear">
-                                             <HBox.margin>
-                                                <Insets left="40.0" />
+                                                <Insets left="50.0" />
                                              </HBox.margin>
                                           </Button>
                                        </children>

@@ -44,12 +44,14 @@ public class MainController {
     Button defaultBtn = stackArrayButton;
 
     @FXML
-    private void standardTabSelected(ActionEvent e) {
+    private void standardTabSelected(Event e) {
         tabSort = TabSort.STANDARD;
+        model.listMode = Model.ListType.ArrayStack;
+        model.currentListType = Model.CurrentListType.Stack;
     }
 
     @FXML
-    private void priorityTabSelected(ActionEvent e) {
+    private void priorityTabSelected(Event e) {
         tabSort = TabSort.PRIORITY;
         model.listMode = Model.ListType.PriorityQueue;
         model.currentListType = Model.CurrentListType.PriorityQueue;
@@ -121,6 +123,19 @@ public class MainController {
     }
 
     @FXML
+    private void popButton_Priority(ActionEvent e) {
+        try{
+            if(model.isStackExists())
+                outputPriority.appendText(" " + model.popPriority());
+        }
+        catch (Exception ex){
+            alert.setTitle("Danger Zone");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
     private void peekButton(ActionEvent e) {
         try{
             if(model.isStackExists())
@@ -136,6 +151,12 @@ public class MainController {
     @FXML
     private void clearButton(ActionEvent e) {
         output.clear();
+        model.clearStack();
+    }
+
+    @FXML
+    private void clearButtonPriority(ActionEvent e) {
+        outputPriority.clear();
         model.clearStack();
     }
 }
